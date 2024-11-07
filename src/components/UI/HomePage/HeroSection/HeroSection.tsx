@@ -9,11 +9,10 @@ const HeroSection = () => {
       sx={{
         display: "flex",
         alignItems: "center",
-        justifyContent: "space-between",
-        my: 8,
-        py: 8,
-        // backgroundColor: "#f7f7f7",
-        // borderRadius: "8px",
+        justifyContent: { xs: "center", md: "space-between" },
+        flexDirection: { xs: "column", md: "row" },
+        my: { xs: 4, md: 8 },
+        py: { xs: 4, md: 8 },
         overflow: "hidden",
         position: "relative",
       }}
@@ -39,32 +38,66 @@ const HeroSection = () => {
       </Box>
 
       {/* Left Section: Headline and Description */}
-      <Box sx={{ maxWidth: "50%" }}>
-        <Typography variant="h2" color="primary.main" gutterBottom>
+      <Box
+        sx={{
+          maxWidth: { xs: "100%", md: "50%" },
+          textAlign: { xs: "center", md: "left" },
+        }}
+      >
+        <Typography
+          variant="h2"
+          color="primary.main"
+          gutterBottom
+          fontSize={{ xs: "2rem", sm: "2.5rem", md: "3rem" }}
+        >
           Find what you lost, reunite what you found!
         </Typography>
-        <Typography variant="body1" sx={{ mb: 4 }}>
+        <Typography
+          variant="body1"
+          sx={{ mb: 4, fontSize: { xs: "1rem", md: "1.25rem" } }}
+        >
           Our mission is to help people reconnect with their lost items and make
           it easy to report found belongings. Join us in creating a community of
           helping hands.
         </Typography>
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Button variant="contained" color="primary">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: 2,
+            justifyContent: { xs: "center", md: "flex-start" },
+          }}
+        >
+          <Button
+            color="primary"
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
             Report a Lost Item
           </Button>
-          <Button variant="outlined" color="primary">
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
             Report a Found Item
           </Button>
         </Box>
       </Box>
 
       {/* Right Section: Image */}
-      <Box sx={{ maxWidth: "50%" }}>
+      <Box
+        sx={{
+          maxWidth: { xs: "100%", md: "50%" },
+          mt: { xs: 4, md: 0 },
+          textAlign: "center",
+        }}
+      >
         <Image
           src={assets.images.cat} // Update with your image path
           width={500}
           height={500}
           alt="Hero Image"
+          style={{ maxWidth: "100%", height: "auto" }}
         />
       </Box>
     </Container>
