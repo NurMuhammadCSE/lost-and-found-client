@@ -1,12 +1,13 @@
+import assets from "@/assets";
 import {
   Box,
   Container,
   Typography,
   Grid,
-  Avatar,
   Card,
   CardContent,
 } from "@mui/material";
+import Image from "next/image";
 import React from "react";
 
 const AboutSection = () => {
@@ -39,10 +40,12 @@ const AboutSection = () => {
         <Grid container spacing={4} justifyContent="center">
           <Grid item xs={12} sm={6} md={4}>
             <Card sx={{ textAlign: "center" }}>
-              <Avatar
+              <Image
                 alt="John Doe"
-                src="/images/john-doe.jpg" // Replace with actual team member image
-                sx={{ width: 100, height: 100, mx: "auto", mt: 3 }}
+                src={assets.images.profile} // Replace with actual team member image
+                height={500}
+                width={500}
+                // className="w-[100px] h-[100px] mx-auto mt-3"
               />
               <CardContent>
                 <Typography variant="h6">John Doe</Typography>

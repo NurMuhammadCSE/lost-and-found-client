@@ -1,11 +1,53 @@
-import React from "react";
+"use client";
 
-const NotFound = () => {
+import React from 'react';
+import { Box, Button, Container, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import assets from '@/assets';
+
+const NotFoundPage = () => {
+  const router = useRouter();
+
+  const handleGoHome = () => {
+    router.push('/');
+  };
+
   return (
-    <div>
-      <h1>Not Found</h1>
-    </div>
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        textAlign: 'center',
+      }}
+    >
+      {/* Optional image for visual enhancement */}
+      <Box sx={{ mb: 4 }}>
+        <Image
+          src={assets.images.notFound} // Replace with your own image path
+          alt="Page not found"
+          width={300}
+          height={300}
+        />
+      </Box>
+
+      {/* Message and heading */}
+      <Typography variant="h4" color="primary" sx={{ fontWeight: 'bold', mb: 1 }}>
+        Oops! Page Not Found
+      </Typography>
+      <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+        The page you're looking for doesn't exist or has been moved.
+      </Typography>
+
+      {/* Return to Home button */}
+      <Button variant="contained" color="primary" onClick={handleGoHome} sx={{ mt: 2 }}>
+        Go Back to Home
+      </Button>
+    </Container>
   );
 };
 
-export default NotFound;
+export default NotFoundPage;
