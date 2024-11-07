@@ -1,28 +1,43 @@
 "use client";
 
-import React, { useState } from "react";
-import { Box, Button, Container, Link, TextField, Typography } from "@mui/material";
+import React from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import NextLink from "next/link";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { userLogin } from "@/Services/Actions/userLogin";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+export type FormValues = {
+  email: string;
+  password: string;
+};
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({
-    usernameOrEmail: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+  const router = useRouter();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add login handling logic here
-    console.log("Form submitted:", formData);
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      const result = await userLogin(data);
+      if (result?.data?.accessToken) {
+        toast.success(result?.message);
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -42,31 +57,29 @@ const LoginForm = () => {
         <Typography component="h1" variant="h5" gutterBottom>
           Login
         </Typography>
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{ mt: 1, width: "100%" }}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ width: "100%", marginTop: 16 }}
         >
           <TextField
-            label="Username or Email"
+            type="email"
+            label="Email"
             variant="outlined"
             margin="normal"
-            required
             fullWidth
-            name="usernameOrEmail"
-            value={formData.usernameOrEmail}
-            onChange={handleChange}
+            {...register("email", { required: "Email is required" })}
+            error={!!errors.email}
+            helperText={errors.email?.message}
           />
           <TextField
             label="Password"
             variant="outlined"
             margin="normal"
-            required
             fullWidth
-            name="password"
             type="password"
-            value={formData.password}
-            onChange={handleChange}
+            {...register("password", { required: "Password is required" })}
+            error={!!errors.password}
+            helperText={errors.password?.message}
           />
           <Button
             type="submit"
@@ -77,7 +90,7 @@ const LoginForm = () => {
           >
             Log In
           </Button>
-        </Box>
+        </form>
 
         {/* Text with link to Register */}
         <Box sx={{ mt: 2 }}>

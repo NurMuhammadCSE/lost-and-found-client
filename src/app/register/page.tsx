@@ -1,40 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
-  Link,
   Box,
   Button,
   Container,
   TextField,
   Typography,
+  Link,
 } from "@mui/material";
 import NextLink from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type FormData = {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<FormData>();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    if (data.password !== data.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    // Add registration logic here
-    console.log("Registration data:", formData);
+    // Add registration handling logic here
+    console.log("Registration data:", data);
   };
 
   return (
@@ -56,7 +55,7 @@ const RegistrationForm = () => {
         </Typography>
         <Box
           component="form"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           sx={{ mt: 1, width: "100%" }}
         >
           <TextField
@@ -65,20 +64,26 @@ const RegistrationForm = () => {
             margin="normal"
             required
             fullWidth
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
+            {...register("username", { required: "Username is required" })}
+            error={!!errors.username}
+            helperText={errors.username?.message}
           />
           <TextField
+            type="email"
             label="Email Address"
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: "Enter a valid email address",
+              },
+            })}
+            error={!!errors.email}
+            helperText={errors.email?.message}
           />
           <TextField
             label="Password"
@@ -86,10 +91,10 @@ const RegistrationForm = () => {
             margin="normal"
             required
             fullWidth
-            name="password"
             type="password"
-            value={formData.password}
-            onChange={handleChange}
+            {...register("password", { required: "Password is required" })}
+            error={!!errors.password}
+            helperText={errors.password?.message}
           />
           <TextField
             label="Confirm Password"
@@ -97,10 +102,14 @@ const RegistrationForm = () => {
             margin="normal"
             required
             fullWidth
-            name="confirmPassword"
             type="password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
+            {...register("confirmPassword", {
+              required: "Please confirm your password",
+              validate: (value) =>
+                value === watch("password") || "Passwords do not match",
+            })}
+            error={!!errors.confirmPassword}
+            helperText={errors.confirmPassword?.message}
           />
           <Button
             type="submit"
