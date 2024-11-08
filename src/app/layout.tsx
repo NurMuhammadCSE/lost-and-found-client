@@ -20,7 +20,7 @@ export default function RootLayout({
         <body>
           <AppRouterCacheProvider>
             <div>
-            <Toaster />
+            <Toaster position="top-center" />
             {children}
             </div>
           </AppRouterCacheProvider>
