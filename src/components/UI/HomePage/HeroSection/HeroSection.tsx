@@ -31,8 +31,8 @@ const HeroSection = () => {
       >
         <Image
           src={assets.images.wall} // Update with your image path
-          layout="fill"
-          objectFit="cover"
+          // layout="fill"
+          // objectFit="cover"
           alt="Lost and Found Background"
         />
       </Box>
@@ -97,7 +97,7 @@ const HeroSection = () => {
           width={500}
           height={500}
           alt="Hero Image"
-          style={{ maxWidth: "100%", height: "auto" }}
+          // style={{ maxWidth: "100%", height: "auto" }}
         />
       </Box>
     </Container>

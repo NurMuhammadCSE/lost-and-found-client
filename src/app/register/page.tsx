@@ -11,9 +11,14 @@ import {
 } from "@mui/material";
 import NextLink from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { registerUser } from "@/Services/Actions/userRegister";
+import { toast } from "sonner";
+import { userLogin } from "@/Services/Actions/userLogin";
+import { StoreUserInfo } from "@/Services/authServices";
+import { useRouter } from "next/navigation";
 
-type FormData = {
-  username: string;
+export type RegisterFormData = {
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -25,15 +30,31 @@ const RegistrationForm = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<FormData>();
+  } = useForm<RegisterFormData>();
+  const router = useRouter();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     if (data.password !== data.confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    // Add registration handling logic here
-    console.log("Registration data:", data);
+
+    try {
+      const res = await registerUser(data);
+      if (res?.data?.id) {
+        toast.success(res?.message);
+        const result = await userLogin({
+          password: data.password,
+          email: data.email,
+        });
+        if (result?.data?.accessToken) {
+          StoreUserInfo({ accessToken: result?.data?.accessToken });
+          router.push("/");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -62,18 +83,18 @@ const RegistrationForm = () => {
             label="Username"
             variant="outlined"
             margin="normal"
-            required
+            // required
             fullWidth
-            {...register("username", { required: "Username is required" })}
-            error={!!errors.username}
-            helperText={errors.username?.message}
+            {...register("name", { required: "Name is required" })}
+            error={!!errors.name}
+            helperText={errors.name?.message}
           />
           <TextField
             type="email"
             label="Email Address"
             variant="outlined"
             margin="normal"
-            required
+            // required
             fullWidth
             {...register("email", {
               required: "Email is required",
@@ -89,7 +110,7 @@ const RegistrationForm = () => {
             label="Password"
             variant="outlined"
             margin="normal"
-            required
+            // required
             fullWidth
             type="password"
             {...register("password", { required: "Password is required" })}
@@ -100,7 +121,7 @@ const RegistrationForm = () => {
             label="Confirm Password"
             variant="outlined"
             margin="normal"
-            required
+            // required
             fullWidth
             type="password"
             {...register("confirmPassword", {
