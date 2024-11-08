@@ -92,5 +92,5 @@ const Navbar = () => {
   );
 };
 
-// export default Navbar;
-export default dynamic(() => Promise.resolve(Navbar), { ssr: false });
+export default Navbar;
+// export default dynamic(() => Promise.resolve(Navbar), { ssr: false });

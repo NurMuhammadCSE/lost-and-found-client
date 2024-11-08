@@ -5,6 +5,7 @@ import React from "react";
 import theme from "../theme/theme";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import dynamic from "next/dynamic";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -14,4 +15,5 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Providers;
+// export default Providers;
+export default dynamic(() => Promise.resolve(Providers), { ssr: false });

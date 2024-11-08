@@ -1,15 +1,15 @@
 "use client"
 import { Box, Container, Typography, Link, Stack, IconButton } from "@mui/material";
 import { Facebook, Twitter, Instagram, Email } from "@mui/icons-material";
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 const Footer = () => {
-  const [year, setYear] = useState("");
+  // const [year, setYear] = useState("");
 
-  useEffect(() => {
-    setYear(new Date().getFullYear().toString()); // Ensures the date is set on the client only
-  }, []);
+  // useEffect(() => {
+  //   setYear(new Date().getFullYear().toString()); // Ensures the date is set on the client only
+  // }, []);
 
   return (
     <Box sx={{ bgcolor: "primary.main", color: "white", py: 4 }}>
@@ -82,7 +82,7 @@ const Footer = () => {
         {/* Copyright Information */}
         <Box textAlign="center" mt={4}>
           <Typography variant="body2">
-            © {year} Lost and Found. All rights reserved.
+            © 2024 Lost and Found. All rights reserved.
           </Typography>
         </Box>
       </Container>
@@ -90,5 +90,5 @@ const Footer = () => {
   );
 };
 
-// export default Footer;
-export default dynamic(() => Promise.resolve(Footer), { ssr: false });
+export default Footer;
+// export default dynamic(() => Promise.resolve(Footer), { ssr: false });

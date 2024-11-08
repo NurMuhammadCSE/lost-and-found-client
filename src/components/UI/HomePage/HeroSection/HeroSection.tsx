@@ -105,5 +105,5 @@ const HeroSection = () => {
   );
 };
 
-// export default HeroSection;
-export default dynamic(() => Promise.resolve(HeroSection), { ssr: false });
+export default HeroSection;
+// export default dynamic(() => Promise.resolve(HeroSection), { ssr: false });
