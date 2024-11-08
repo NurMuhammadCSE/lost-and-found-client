@@ -1,5 +1,6 @@
 import assets from "@/assets";
 import { Box, Button, Container, Typography } from "@mui/material";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
 
@@ -104,4 +105,5 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+// export default HeroSection;
+export default dynamic(() => Promise.resolve(HeroSection), { ssr: false });

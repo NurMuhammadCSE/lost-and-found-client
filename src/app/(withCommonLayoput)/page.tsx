@@ -1,14 +1,20 @@
-import AboutSection from "@/components/UI/HomePage/AboutSection/AboutSection";
-import HeroSection from "@/components/UI/HomePage/HeroSection/HeroSection";
+"use client"
+import LostItems from "@/components/UI/HomePage/LostItems/LostItems";
+import dynamic from "next/dynamic";
 import React from "react";
 
-const page = () => {
+const HeroSection = dynamic(() => import("@/components/UI/HomePage/HeroSection/HeroSection"), { ssr: false });
+const AboutSection = dynamic(() => import("@/components/UI/HomePage/AboutSection/AboutSection"), { ssr: false });
+
+const HomePage = () => {
   return (
     <div>
-      <HeroSection></HeroSection>
-      <AboutSection></AboutSection>
+      <HeroSection />
+      <AboutSection />
+      <LostItems></LostItems>
     </div>
   );
 };
 
-export default page;
+// export default HomePage;
+export default dynamic(() => Promise.resolve(HomePage), { ssr: false });

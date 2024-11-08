@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
 
@@ -66,4 +67,5 @@ const AboutSection = () => {
   );
 };
 
-export default AboutSection;
+// export default AboutSection;
+export default dynamic(() => Promise.resolve(AboutSection), { ssr: false });

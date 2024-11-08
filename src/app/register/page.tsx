@@ -9,13 +9,13 @@ import {
   Typography,
   Link,
 } from "@mui/material";
-import NextLink from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { registerUser } from "@/Services/Actions/userRegister";
 import { toast } from "sonner";
 import { userLogin } from "@/Services/Actions/userLogin";
-import { StoreUserInfo } from "@/Services/authServices";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import { storeUserInfo } from "@/Services/authServices";
 
 export type RegisterFormData = {
   name: string;
@@ -48,7 +48,7 @@ const RegistrationForm = () => {
           email: data.email,
         });
         if (result?.data?.accessToken) {
-          StoreUserInfo({ accessToken: result?.data?.accessToken });
+          storeUserInfo({ accessToken: result?.data?.accessToken });
           router.push("/");
         }
       }
@@ -145,10 +145,14 @@ const RegistrationForm = () => {
         {/* Text with link to Login */}
         <Box sx={{ mt: 2 }}>
           <Typography variant="body2" color="text.secondary">
-            Already have an account?{" "}
-            <NextLink href="/login" passHref>
-              <Link color="primary">Login</Link>
-            </NextLink>
+            Already have an account? {/* <NextLink href="/login" passHref> */}
+            <Link href="/login" color="primary">
+              Login
+            </Link>
+            {/* </NextLink> */}
+            {/* <Typography color="primary" component={Link} href="/login">
+              Login
+            </Typography> */}
           </Typography>
         </Box>
       </Box>
@@ -156,4 +160,5 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+// export default RegistrationForm;
+export default dynamic(() => Promise.resolve(RegistrationForm), { ssr: false });

@@ -9,12 +9,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import NextLink from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { userLogin } from "@/Services/Actions/userLogin";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { StoreUserInfo } from "@/Services/authServices";
+import { storeUserInfo } from "@/Services/authServices";
+import dynamic from "next/dynamic";
 
 export type FormValues = {
   email: string;
@@ -33,7 +33,7 @@ const LoginForm = () => {
     try {
       const result = await userLogin(data);
       if (result?.data?.accessToken) {
-        StoreUserInfo({ accessToken: result?.data?.accessToken });
+        storeUserInfo({ accessToken: result?.data?.accessToken });
         toast.success(result?.message);
         router.push("/");
       }
@@ -98,9 +98,10 @@ const LoginForm = () => {
         <Box sx={{ mt: 2 }}>
           <Typography variant="body2" color="text.secondary">
             Don&apos;t have an account?{" "}
-            <NextLink href="/register" passHref>
-              <Link color="primary">Register</Link>
-            </NextLink>
+            <Link href="/register" color="primary">
+              Register
+            </Link>
+            {/* <Typography color="primary" component={Link} href="/register">Register</Typography> */}
           </Typography>
         </Box>
       </Box>
@@ -108,4 +109,5 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+// export default LoginForm;
+export default dynamic(() => Promise.resolve(LoginForm), { ssr: false });
